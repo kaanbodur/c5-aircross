@@ -36,8 +36,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(15, 23, 42, 0.96);
+            background: rgba(15, 23, 42, 1);
             padding: 1.5rem;
+        }
+        #entry-gate.hidden {
+            display: none !important;
         }
         #entry-gate .gate-card {
             width: 100%;
@@ -1457,14 +1460,16 @@
             showToast("Ödeme planı raporu panoya kopyalandı!");
         }
 
-        const SITE_PASSWORD_CHARS = [97, 105, 114, 99, 114, 111, 115, 115, 50, 48, 50, 54, 75, 66];
+        const SITE_PASSWORD_CHARS = [97, 105, 114, 99, 114, 111, 115, 115, 50, 54, 75, 66];
 
         function getSitePassword() {
             return String.fromCharCode(...SITE_PASSWORD_CHARS);
         }
 
         function unlockSite() {
-            document.getElementById('entry-gate').classList.add('hidden');
+            const gate = document.getElementById('entry-gate');
+            gate.classList.add('hidden');
+            gate.style.display = 'none';
             document.getElementById('app-content').style.display = 'block';
         }
 
@@ -1480,6 +1485,7 @@
             if (entered === getSitePassword()) {
                 sessionStorage.setItem('otokarar_access', 'granted');
                 unlockSite();
+                showToast('Giriş başarılı! Hoş geldiniz.');
             } else {
                 showGateError('Şifre yanlış. Lütfen tekrar deneyin.');
             }
